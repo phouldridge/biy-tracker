@@ -1,0 +1,136 @@
+:root{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;}
+html,body {
+  height: 100%;
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #fff;
+  color: #111;
+  justify-content: center;
+}
+
+.main {
+  align-self: center;
+  max-width:480px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* full viewport so list can scroll independently */
+  padding: 12px;
+  gap: 8px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+h1{font-size:18px;margin:0}
+.list{display:block;margin-top:8px}
+.day{display:flex;align-items:center;gap:12px;padding:10px;border-bottom:1px solid #e6e6e9;background:#fff;border-radius:8px;margin-bottom:8px}
+.day label{flex:1;user-select:none;font-size:15px}
+input[type="checkbox"]{width:22px;height:22px}
+.controls {
+  display: flex;
+  gap: 8px;
+}
+
+button {
+  padding: 8px 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #f7f7f7;
+}
+
+small {
+  color: #666;
+  display: block;
+}
+
+.list {
+  flex: 1 1 auto;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  border-top: 1px solid #eee;
+  margin-top: 6px;
+  padding-top: 6px;
+  background: linear-gradient(#fff, #fff);
+}
+
+/* Individual day rows */
+.day {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 6px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.day input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+}
+
+.day label {
+  font-size: 15px;
+  line-height: 1.2;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Hamburger menu */
+.menu{position:relative}
+.hamburger{
+  display:inline-block;
+  width:20px;height:14px;
+  position:relative;
+}
+.hamburger:before,.hamburger:after,.hamburger{background:#333;border-radius:2px;content:'';display:block;position:absolute;height:2px;left:0;right:0}
+.hamburger{top:6px}
+.hamburger:before{top:-5px}
+.hamburger:after{top:5px}
+
+.menu-list{
+  position:absolute;
+  right:0;
+  top:36px;
+  min-width:140px;
+  background:#fff;
+  border:1px solid #e6e6e9;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  border-radius:8px;
+  padding:6px;
+  display:none;
+  z-index:40;
+}
+.menu-list.show{display:block}
+.menu-list button{display:block;width:100%;text-align:left;padding:8px 10px;border-radius:6px;border:none;background:transparent}
+.menu-list button:hover{background:#f2f2f4}
+
+/* Larger tap target for mobile */
+#menuBtn{width:15px;height:15px;border-radius:8px;border:1px solid transparent;background:#fff;}
+#menuBtn:active,#menuBtn:focus{outline:none;border-color:#ddd}
+
+/* About dialog styles */
+.dialog{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:60}
+.dialog[aria-hidden="false"]{display:flex}
+.dialog-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.4)}
+.dialog-panel{position:relative;z-index:62;background:#fff;color:#111;max-width:520px;width:94%;border-radius:10px;padding:16px;box-shadow:0 10px 40px rgba(0,0,0,0.15);}
+.dialog-close{position:absolute;right:8px;top:8px;border:none;background:transparent;font-size:20px;line-height:1;padding:6px;border-radius:6px}
+.dialog-close:focus{outline:2px solid #ddd}
+.dialog-panel h2{margin-top:0}
+
+/* Player styles */
+.player{display:flex;align-items:center;gap:10px;padding:10px 12px;border-top:1px solid #eee;background:#fff;box-shadow:0 -6px 16px rgba(0,0,0,0.02);flex:0 0 auto}
+.player audio{flex:1;width:100%}
+.btn-hide{padding:8px 10px;border-radius:6px;border:1px solid #ddd;background:#f7f7f7}
+.player[hidden]{display:none}
+
+/* small select for playback rate */
+/* native audio control is used for playbackRate; no custom select needed */

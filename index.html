@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Bible in a Year Tracker</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="main">
+  <header>
+    <h1>Bible in a Year Tracker</h1>
+    <div class="controls">
+      <div class="menu">
+        <button id="menuBtn" aria-expanded="false" aria-haspopup="true" aria-label="Open menu">
+          <span class="hamburger" aria-hidden="true"></span>
+        </button>
+        <div id="menu" class="menu-list" role="menu" aria-hidden="true">
+          <button id="clear" role="menuitem">Clear</button>
+          <button id="checkAll" role="menuitem">Check All</button>
+          <button id="about" role="menuitem">About</button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <small>Tap a day to play the audio and check it. Tap again to uncheck.</small>
+
+  <div id="days" class="list" aria-live="polite"></div>
+      <!-- Audio player (appears when playback starts) -->
+    <div id="player" class="player" aria-live="polite" hidden>
+      <audio id="audioPlayer" controls controlsList="nodownload" preload="none"></audio>
+      <button id="hidePlayer" class="btn-hide" aria-label="Hide player">stop</button>
+      <!-- native audio controls are used; playback speed changes are captured via the audio element -->
+    </div>
+</div>
+  <!-- About dialog -->
+  <div id="aboutDialog" class="dialog" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="dialog-backdrop" data-close="true"></div>
+    <div class="dialog-panel">
+      <button id="aboutClose" class="dialog-close" aria-label="Close">×</button>
+      <h2>About this site</h2>
+      <p>This simple tracker lists each day of the year. Tap a day to play the associated audio and mark it checked. Checked days are saved in your browser's local storage.</p>
+      <p>Audio files are streamed from the Bible in a Year collection on <a href="https://listenersbible.com" target="_blank" rel="noopener noreferrer">listenersbible.com</a>. This page is a lightweight tracker for personal use only.</p>
+    </div>
+  </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
