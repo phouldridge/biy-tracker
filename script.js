@@ -45,7 +45,14 @@
   function mkLabelForDay(n){
     const d = new Date(year,0,1);
     d.setDate(n);
-    return d.toLocaleDateString(undefined,{month:'long',day:'numeric'});
+
+    const optionsDate = { month: 'long', day: 'numeric' };
+    const optionsDay = { weekday: 'long' };
+
+    const monthDayString = d.toLocaleDateString('en-US', optionsDate);
+    const dayOfWeekString = d.toLocaleDateString('en-US', optionsDay);
+    
+    return `${monthDayString}, ${dayOfWeekString}`;
   }
 
   function build() {
@@ -64,7 +71,7 @@
 
       const label = document.createElement('label');
       label.htmlFor = id;
-      label.textContent = `Day ${idx} — ${mkLabelForDay(i)}`;
+      label.textContent = `Day ${idx} - ${mkLabelForDay(i)}`;
 
       wrapper.appendChild(input);
       wrapper.appendChild(label);

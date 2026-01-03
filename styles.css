@@ -11,7 +11,7 @@ html,body {
 }
 
 .main {
-  align-self: center;
+  justify-self: center;
   max-width:480px;
   box-sizing: border-box;
   display: flex;
