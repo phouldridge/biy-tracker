@@ -7,12 +7,12 @@
   const player = document.getElementById('player');
   const hidePlayerBtn = document.getElementById('hidePlayer');
   const RATE_KEY = 'biy-playback-rate';
+  const rateValue = localStorage.getItem(RATE_KEY);
 
   // initialize playback rate from storage
   (function initRate(){
     try {
-      const stored = localStorage.getItem(RATE_KEY);
-      const rate = stored ? parseFloat(stored) : 1;
+      const rate = rateValue ? parseFloat(rateValue) : 1;
       if (audio && !Number.isNaN(rate)) {
          audio.playbackRate = rate;
       }
@@ -22,7 +22,8 @@
   // listen for native control rate changes and persist them
   if (audio) {
     audio.addEventListener('ratechange', ()=>{
-      try { localStorage.setItem(RATE_KEY, String(audio.playbackRate)); } catch(_) {}
+      rateValue = String(audio.playbackRate);
+      try { localStorage.setItem(RATE_KEY, rateValue); } catch(_) {}
     });
   }
 
@@ -87,10 +88,8 @@
               audio.pause();
               // ensure stored playbackRate is applied before play
               try {
-                const stored = localStorage.getItem(RATE_KEY);
-                const rate = parseFloat(stored);
-                if (stored && !Number.isNaN(rate)) {
-                  audio.playbackRate = rate;
+                if (rateValue && !Number.isNaN(rateValue)) {
+                  audio.playbackRate = rateValue;
                 };
               } catch(_) {}
               audio.src = `https://listenersbible.com/wp-content/themes/salient/biy/Day_${day}.mp3?_=1`;
