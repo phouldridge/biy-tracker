@@ -54,13 +54,17 @@
             <option value="3">3x</option>
           </select>
         </label>
+      <button id="hidePlayer" class="btn-hide" aria-label="Stop and hide player" title="Stop and hide player">
+        &#128721;
+        <!-- <span class="stop-icon" aria-hidden="true"></span> -->
+      </button>
     </div>
 </div>
   <!-- About dialog -->
   <div id="aboutDialog" class="dialog" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="dialog-backdrop" data-close="true"></div>
     <div class="dialog-panel">
-      <button id="aboutClose" class="dialog-close" aria-label="Close">×</button>
+      <button id="aboutClose" class="dialog-close" aria-label="Close">stop</button>
       <h2>About this site</h2>
       <p>This simple tracker lists each day of the year. Tap a day to play the associated audio and mark it checked. Checked days are saved in your browser's local storage.</p>
       <p>Audio files are streamed from the Bible in a Year collection on <a href="https://listenersbible.com" target="_blank" rel="noopener noreferrer">listenersbible.com</a>. This page is a lightweight tracker for personal use only.</p>
