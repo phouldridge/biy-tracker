@@ -37,8 +37,23 @@
       <!-- Audio player (appears when playback starts) -->
     <div id="player" class="player" aria-live="polite" hidden>
       <audio id="audioPlayer" controls controlsList="nodownload" preload="none"></audio>
-      <button id="hidePlayer" class="btn-hide" aria-label="Hide player">stop</button>
-      <!-- native audio controls are used; playback speed changes are captured via the audio element -->
+        <div class="seek-controls">
+          <div class="seek-times" aria-hidden="true">
+            <span id="currentTime">0:00</span>
+            <span id="duration">0:00</span>
+          </div>
+          <input id="seekBar" class="seek-bar" type="range" min="0" max="0" value="0" step="0.1" disabled aria-label="Set playback location" />
+        </div>
+        <label class="speed-control" for="playbackRate">
+          <select id="playbackRate" aria-label="Playback speed">
+            <option value="0.5">0.5x</option>
+            <option value="1">1x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2">2x</option>
+            <option value="2.5">2.5x</option>
+            <option value="3">3x</option>
+          </select>
+        </label>
     </div>
 </div>
   <!-- About dialog -->

@@ -1,30 +1,83 @@
 (() => {
   const LIST_KEY = 'biy-checked-days';
+  const RATE_KEY = 'biy-playback-rate';
+
   const container = document.getElementById('days');
   // use the page audio element so controls are visible to the user
   const audio = document.getElementById('audioPlayer');
   if (audio) audio.preload = 'none';
   const player = document.getElementById('player');
   const hidePlayerBtn = document.getElementById('hidePlayer');
-  const RATE_KEY = 'biy-playback-rate';
+  const seekBar = document.getElementById('seekBar');
+  const currentTimeLabel = document.getElementById('currentTime');
+  const durationLabel = document.getElementById('duration');
+  const playbackRateSelect = document.getElementById('playbackRate');
   const rateValue = localStorage.getItem(RATE_KEY);
+  const parsedRate = rateValue ? parseFloat(rateValue) : 1;
+  const storedRate = Number.isFinite(parsedRate) ? Math.min(4, Math.max(0.5, parsedRate)) : 1;
+
+  if (playbackRateSelect) playbackRateSelect.value = String(storedRate);
+
+  function formatTime(seconds){
+    if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60).toString().padStart(2, '0');
+    return `${minutes}:${remainingSeconds}`;
+  }
+
+  function updatePlaybackPosition(){
+    if (!audio) return;
+    const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
+    if (seekBar) {
+      seekBar.max = String(duration);
+      seekBar.value = String(Math.min(audio.currentTime, duration));
+      seekBar.disabled = duration === 0;
+    }
+    if (currentTimeLabel) currentTimeLabel.textContent = formatTime(audio.currentTime);
+    if (durationLabel) durationLabel.textContent = formatTime(duration);
+  }
+
 
   // initialize playback rate from storage
-  (function initRate(){
+  function initRate(){
     try {
-      const rate = rateValue ? parseFloat(rateValue) : 1;
-      if (audio && !Number.isNaN(rate)) {
-         audio.playbackRate = rate;
+      if (audio && Number.isFinite(storedRate)) {
+         audio.playbackRate = storedRate;
+         localStorage.setItem(RATE_KEY, String(audio.playbackRate)); 
       }
     } catch(_) {}
-  })();
+  }
 
   // listen for native control rate changes and persist them
   if (audio) {
+    audio.addEventListener('loadedmetadata', initRate);
     audio.addEventListener('ratechange', ()=>{
-      rateValue = String(audio.playbackRate);
-      try { localStorage.setItem(RATE_KEY, rateValue); } catch(_) {}
+      try { 
+        localStorage.setItem(RATE_KEY, String(audio.playbackRate)); 
+        if (playbackRateSelect) playbackRateSelect.value = String(audio.playbackRate);
+      } catch(_) {}
     });
+    audio.addEventListener('loadedmetadata', updatePlaybackPosition);
+    audio.addEventListener('durationchange', updatePlaybackPosition);
+    audio.addEventListener('timeupdate', updatePlaybackPosition);
+  }
+
+  if (seekBar && audio) {
+    seekBar.addEventListener('input', () => {
+      audio.currentTime = Number(seekBar.value);
+      updatePlaybackPosition();
+    });
+  }
+
+  if (playbackRateSelect && audio) {
+    playbackRateSelect.addEventListener('change', () => {
+      audio.playbackRate = Number(playbackRateSelect.value);
+    });
+  }
+
+  // initialize rate immediately if already loaded
+  if (audio && audio.readyState >= 1) {
+    initRate();
   }
 
   function pad(n){ return String(n).padStart(3,'0'); }
@@ -88,8 +141,8 @@
               audio.pause();
               // ensure stored playbackRate is applied before play
               try {
-                if (rateValue && !Number.isNaN(rateValue)) {
-                  audio.playbackRate = rateValue;
+                if (Number.isFinite(storedRate)) {
+                  audio.playbackRate = storedRate;
                 };
               } catch(_) {}
               audio.src = `https://listenersbible.com/wp-content/themes/salient/biy/Day_${day}.mp3?_=1`;
